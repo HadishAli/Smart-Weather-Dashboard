@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Weather Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>☀️ Smart Weather Dashboard</h1>
+        
+        <div class="search-form">
+            <input type="text" id="cityInput" placeholder="Enter city name (e.g., Patna, London)...">
+            <button id="searchBtn">Search Weather</button>
+        </div>
+
+        <div class="weather-card" id="weatherCard">
+            <h2 id="cityName">Enter a city to get weather details</h2>
+            <div id="weatherData" style="display: none;">
+                <h3 id="temp">-- °C</h3>
+                <p id="description">Condition: --</p>
+                <div class="details">
+                    <p id="humidity">💧 Humidity: --%</p>
+                    <p id="wind">💨 Wind: -- km/h</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="history-section">
+            <h3>📍 Recent Searches (Browser Storage)</h3>
+            <ul id="historyList">
+                <li>No recent searches yet.</li>
+            </ul>
+            <button id="clearHistoryBtn" style="background:#ff7675; margin-top:10px; padding:5px 10px; font-size:12px;">Clear History</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
