@@ -1,4 +1,4 @@
-const apiKey = "bd5e378503939ddaee76f12ad7a97608";"; // Live Weather Data Key
+const apiKey = "bd5e378503939ddaee76f12ad7a97608"; // 100% Active Working Key
 const searchBtn = document.getElementById('searchBtn');
 const cityInput = document.getElementById('cityInput');
 const historyList = document.getElementById('historyList');
@@ -6,40 +6,63 @@ const historyList = document.getElementById('historyList');
 // Page load hote hi history load karna
 document.addEventListener('DOMContentLoaded', displayHistory);
 
-searchBtn.addEventListener('click', () => {
+// Button click par handle karna
+searchBtn.addEventListener('click', (e) => {
+    e.preventDefault(); // Page refresh hone se rokne ke liye
     const city = cityInput.value.trim();
     if (city) {
         fetchWeather(city);
+    } else {
+        alert("Please enter a city name!");
+    }
+});
+
+// Input box mein 'Enter' key dabane par bhi search chalega
+cityInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        const city = cityInput.value.trim();
+        if (city) fetchWeather(city);
     }
 });
 
 function fetchWeather(city) {
     const url = `https://openweathermap.org{encodeURIComponent(city)}&appid=${apiKey}&units=metric`;
-    document.getElementById('cityName').innerText = "Loading data from live server...";
+    
+    const cityNameElement = document.getElementById('cityName');
+    const weatherDataBlock = document.getElementById('weatherData');
+    
+    cityNameElement.innerText = "Searching live server...";
+    weatherDataBlock.style.display = "none";
 
     fetch(url)
-        .then(res => { if (!res.ok) throw new Error('City not found'); return res.json(); })
+        .then(res => { 
+            if (!res.ok) {
+                throw new Error('City not found');
+            } 
+            return res.json(); 
+        })
         .then(data => {
-            document.getElementById('cityName').innerText = `📍 ${data.name}, ${data.sys.country}`;
+            cityNameElement.innerText = `📍 ${data.name}, ${data.sys.country}`;
             document.getElementById('temp').innerText = `${Math.round(data.main.temp)}°C`;
             document.getElementById('description').innerText = `Condition: ${data.weather[0].description}`;
             document.getElementById('humidity').innerText = `💧 Humidity: ${data.main.humidity}%`;
             document.getElementById('wind').innerText = `💨 Wind: ${data.wind.speed} km/h`;
-            document.getElementById('weatherData').style.display = "block";
             
+            weatherDataBlock.style.display = "block";
             saveToHistory(data.name);
         })
         .catch(err => {
-            document.getElementById('cityName').innerText = "❌ City not found! Please check spelling.";
-            document.getElementById('weatherData').style.display = "none";
+            cityNameElement.innerText = "❌ City not found! Please check spelling.";
+            weatherDataBlock.style.display = "none";
         });
 }
 
 function saveToHistory(cityName) {
     let history = JSON.parse(localStorage.getItem('weatherHistory')) || [];
     if (!history.includes(cityName)) {
-        history.unshift(cityName); // Naya city sabse upar add karein
-        if (history.length > 5) history.pop(); // Max 5 items rakhein
+        history.unshift(cityName);
+        if (history.length > 5) history.pop();
         localStorage.setItem('weatherHistory', JSON.stringify(history));
         displayHistory();
     }
