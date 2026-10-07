@@ -1,14 +1,13 @@
-const apiKey = "bd5e378503939ddaee76f12ad7a97608"; // 100% Active Working Key
+const apiKey = "bd5e378503939ddaee76f12ad7a97608"; // 100% Active Key
 const searchBtn = document.getElementById('searchBtn');
 const cityInput = document.getElementById('cityInput');
 const historyList = document.getElementById('historyList');
 
-// Page load hote hi history load karna
+// Page load hote hi local storage se history load karna
 document.addEventListener('DOMContentLoaded', displayHistory);
 
-// Button click par handle karna
-searchBtn.addEventListener('click', (e) => {
-    e.preventDefault(); // Page refresh hone se rokne ke liye
+// Button click par live integration
+searchBtn.addEventListener('click', () => {
     const city = cityInput.value.trim();
     if (city) {
         fetchWeather(city);
@@ -17,10 +16,9 @@ searchBtn.addEventListener('click', (e) => {
     }
 });
 
-// Input box mein 'Enter' key dabane par bhi search chalega
+// Enter key dabane par bhi search chalega
 cityInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
-        e.preventDefault();
         const city = cityInput.value.trim();
         if (city) fetchWeather(city);
     }
@@ -43,6 +41,7 @@ function fetchWeather(city) {
             return res.json(); 
         })
         .then(data => {
+            // Screen elements ko match karke update karna
             cityNameElement.innerText = `📍 ${data.name}, ${data.sys.country}`;
             document.getElementById('temp').innerText = `${Math.round(data.main.temp)}°C`;
             document.getElementById('description').innerText = `Condition: ${data.weather[0].description}`;
