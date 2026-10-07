@@ -1,4 +1,4 @@
-const apiKey = "857b607ceea3c7ef6bf3ee2546419747"; // Live Weather Data Key
+const apiKey = "bd5e378503939ddaee76f12ad7a97608";"; // Live Weather Data Key
 const searchBtn = document.getElementById('searchBtn');
 const cityInput = document.getElementById('cityInput');
 const historyList = document.getElementById('historyList');
